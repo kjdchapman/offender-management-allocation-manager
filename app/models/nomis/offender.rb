@@ -12,11 +12,18 @@ module Nomis
 
     attr_reader :reception_date
 
-    def initialize(fields = nil)
+    def initialize(fields = {})
+      super fields
       # Allow this object to be reconstituted from a hash, we can't use
       # from_json as the one passed in will already be using the snake case
       # names whereas from_json is expecting the elite2 camelcase names.
-      fields.each { |k, v| public_send("#{k}=", v) } if fields.present?
+      @gender = fields[:gender]
+      @booking_id = fields[:booking_id]
+      @main_offence = fields[:main_offence]
+      @nationalities = fields[:nationalities]
+      @noms_id = fields[:noms_id]
+      @prison_id = fields[:prison_id]
+      @reception_date = fields[:reception_date]
     end
 
     def self.from_json(payload)

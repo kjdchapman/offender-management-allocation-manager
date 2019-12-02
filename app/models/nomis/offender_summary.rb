@@ -11,6 +11,14 @@ module Nomis
 
     attr_reader :prison_id
 
+    def initialize(fields = {})
+      super
+
+      @aliases = fields[:aliases]
+      @booking_id = fields[:booking_id]
+      @prison_id = fields[:prison_id]
+    end
+
     def awaiting_allocation_for
       (Time.zone.today - prison_arrival_date).to_i
     end

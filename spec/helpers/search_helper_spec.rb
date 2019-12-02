@@ -10,23 +10,32 @@ RSpec.describe SearchHelper do
       expect(text).to eq('<a href="/prisons/LEI/case_information/new/A">Edit</a>')
     end
 
-    it "will change to allocate if there is no allocation" do
-      offender = Nomis::Offender.new(
-        offender_no: 'A',
-        tier: 'A'
-      )
-      text, _link = cta_for_offender('LEI', offender)
-      expect(text).to eq('<a href="/prisons/LEI/allocations/A/new">Allocate</a>')
+    context 'when there is no allocation' do
+      let(:case_info) { build(:case_information, tier: 'A') }
+
+      it "will change to allocate if there is no allocation" do
+        offender = Nomis::Offender.new(
+          offender_no: 'G1234FX'
+          )
+        offender.load_case_information(case_info)
+        text, _link = cta_for_offender('LEI', offender)
+        expect(text).to eq('<a href="/prisons/LEI/allocations/G1234FX/new">Allocate</a>')
+      end
     end
 
-    it "will change to view if there is an allocation" do
-      offender = Nomis::Offender.new(
-        offender_no: 'A',
-        tier: 'A',
-        allocated_pom_name: 'Bob'
-      )
-      text, _link = cta_for_offender('LEI', offender)
-      expect(text).to eq('<a href="/prisons/LEI/allocations/A">View</a>')
+    context 'with an allocation' do
+      let(:case_info) { build(:case_information, tier: 'A') }
+
+      it "will change to view if there is an allocation" do
+        offender = Nomis::Offender.new(
+          offender_no: 'G1234FX',
+        )
+        offender.allocated_pom_name = 'Bob'
+        offender.load_case_information(case_info)
+
+        text, _link = cta_for_offender('LEI', offender)
+        expect(text).to eq('<a href="/prisons/LEI/allocations/G1234FX">View</a>')
+      end
     end
   end
 end
