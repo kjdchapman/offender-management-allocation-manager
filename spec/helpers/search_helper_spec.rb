@@ -28,7 +28,7 @@ RSpec.describe SearchHelper do
 
       it "will change to view if there is an allocation" do
         offender = Nomis::Offender.new(
-          offender_no: 'G1234FX',
+          offender_no: 'G1234FX'
         )
         offender.allocated_pom_name = 'Bob'
         offender.load_case_information(case_info)
