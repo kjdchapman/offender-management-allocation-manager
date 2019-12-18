@@ -6,16 +6,13 @@ module Nomis
              :automatic_release_date,
              to: :sentence
 
-    attr_accessor :convicted_status, :booking_id,
-                  :category_code, :offender_no, :date_of_birth,
-                  :first_name, :last_name
+    attr_reader :booking_id, :last_name, :first_name, :offender_no
 
-    # Custom attributes
-    attr_accessor :crn,
+    attr_accessor :crn, :category_code, :convicted_status,
                   :allocated_pom_name, :case_allocation,
                   :welsh_offender, :tier, :parole_review_date,
                   :sentence, :mappa_level,
-                  :ldu, :team
+                  :ldu, :team, :date_of_birth
 
     def initialize(fields)
       @first_name = fields[:first_name]
