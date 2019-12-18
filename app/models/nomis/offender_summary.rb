@@ -14,7 +14,6 @@ module Nomis
     def initialize(fields = {})
       super
 
-      @aliases = fields[:aliases]
       @booking_id = fields[:booking_id]
       @prison_id = fields[:prison_id]
     end
@@ -29,10 +28,12 @@ module Nomis
       }
     end
 
+    # This list must only contain values that are returned by
+    # https://gateway.t3.nomis-api.hmpps.dsd.io/elite2api/swagger-ui.html#//locations/getOffendersAtLocationDescription
     def load_from_json(payload)
-      @aliases = payload['aliases']
       @booking_id = payload['bookingId']&.to_i
       @prison_id = payload['agencyId']
+      @category_code = payload['categoryCode']
 
       super(payload)
     end

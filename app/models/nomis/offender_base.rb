@@ -20,11 +20,14 @@ module Nomis
       @offender_no = fields[:offender_no]
       @convicted_status = fields[:convicted_status]
       @sentence_type = SentenceType.new(fields[:inprisonment_status])
-      @category_code = fields[:category_code]
       @date_of_birth = fields[:date_of_birth]
       @early_allocation = false
     end
 
+    # This list must only contain fields that are both supplied by
+    # https://gateway.t3.nomis-api.hmpps.dsd.io/elite2api/swagger-ui.html#//prisoners/getPrisonersOffenderNo
+    # and also by
+    # https://gateway.t3.nomis-api.hmpps.dsd.io/elite2api/swagger-ui.html#//locations/getOffendersAtLocationDescription
     def load_from_json(payload)
       # It is expected that this method will be called by the subclass which
       # will have been given a payload at the class level, and will call this
@@ -34,7 +37,6 @@ module Nomis
       @offender_no = payload['offenderNo']
       @convicted_status = payload['convictedStatus']
       @sentence_type = SentenceType.new(payload['imprisonmentStatus'])
-      @category_code = payload['categoryCode']
       @date_of_birth = deserialise_date(payload, 'dateOfBirth')
       @early_allocation = false
     end
